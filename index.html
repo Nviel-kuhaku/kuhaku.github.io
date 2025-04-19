@@ -111,9 +111,30 @@
   </style>
 </head>
 <body>
- <audio autoplay loop>
+ <audio id="laskar-pelangi.mp3" autoplay loop muted preload="auto">
   <source src="laskar-pelangi.mp3" type="audio/mp3" />
 </audio>
+
+
+<script>
+  const audio = document.getElementById('bg-music');
+  window.addEventListener('DOMContentLoaded', () => {
+    const lastTime = localStorage.getItem('musicTime');
+    if (lastTime) audio.currentTime = parseFloat(lastTime);
+
+    audio.load();
+    setTimeout(() => {
+      audio.muted = false;
+      audio.play().catch(e => console.log("Autoplay error:", e));
+    }, 200);
+  });
+
+  setInterval(() => {
+    if (!audio.paused) {
+      localStorage.setItem('musicTime', audio.currentTime);
+    }
+  }, 1000);
+</script>
 
 
   <div class="toast" id="toast"></div>
